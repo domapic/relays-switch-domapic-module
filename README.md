@@ -67,11 +67,10 @@ Domapic modules are intended to be used through Domapic Controller, but can be u
 
 ### Rest API
 
-When the server is started, you can browse to the provided Swagger interface to get all the info about the api resources.  Apart of all api methods common to all [Domapic Services][domapic-service-url], <!-- the server provides one [_Domapic Ability_][domapic-service-abilities-url] for getting the state of the sensor, which generates one extra API resource:
+When the server is started, you can browse to the provided Swagger interface to get all the info about the api resources.  Apart of all api methods common to all [Domapic Services][domapic-service-url]
+<!-- the server provides one [_Domapic Ability_][domapic-service-abilities-url] for getting the state of the sensor, which generates one extra API resource:
 
-* `/api/abilities/contact-sensor/state` - Returns the current state of the sensor.
-
--->
+* `/api/abilities/contact-sensor/state` - Returns the current state of the sensor. -->
 
 ### Authentication
 
@@ -94,7 +93,7 @@ Use the mentioned api key also for authenticating when using the Swagger interfa
 
 ### Not global installation
 
-If the package is not installed globally, you can replace the `relays-switch-sensor` command in examples above by `npm run relays-switch --` (commands must be executed inside the package folder in that case)
+If the package is not installed globally, you can replace the `relays-switch` command in examples above by `npm run relays-switch --` (commands must be executed inside the package folder in that case)
 
 ### Not background mode
 
