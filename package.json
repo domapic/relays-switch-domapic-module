@@ -1,0 +1,50 @@
+{
+  "name": "relays-switch-domapic-module",
+  "version": "1.0.0",
+  "description": "Domapic module that handles a 4 way switch made with relays",
+  "main": "server.js",
+  "bin": {
+    "relays-switch": "./bin/relays-switch"
+  },
+  "scripts": {
+    "test": "narval",
+    "coveralls": "cat ./.coverage/lcov.info | coveralls",
+    "relays-switch": "./bin/relays-switch"
+  },
+  "dependencies": {
+    "domapic-service": "1.0.0-alpha.5",
+    "gpio-in-domapic": "1.0.0"
+  },
+  "devDependencies": {
+    "coveralls": "3.0.2",
+    "narval": "2.2.1",
+    "request": "2.88.0",
+    "request-promise": "4.2.2"
+  },
+  "files": [
+    "/lib",
+    "/bin",
+    "server.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/javierbrea/relays-switch-domapic-module.git"
+  },
+  "keywords": [
+    "domapic",
+    "switch",
+    "relay",
+    "sensor",
+    "iot",
+    "api",
+    "domotic",
+    "light",
+    "raspberry"
+  ],
+  "author": "Javier Brea",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/javierbrea/relays-switch-domapic-module/issues"
+  },
+  "homepage": "https://github.com/javierbrea/relays-switch-domapic-module#readme"
+}
