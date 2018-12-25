@@ -54,10 +54,10 @@ domapic.createModule({
   const statusSensorValue = value => reverse ? !value : value
 
   const toggleSwitch = async () => {
-    const currentStatus = relay1.status
-    await relay1.setStatus(!currentStatus)
+    const targetStatus = !relay1.status
+    await relay1.setStatus(targetStatus)
     if (relay2) {
-      await relay2.setStatus(!currentStatus)
+      await relay2.setStatus(targetStatus)
     }
   }
 

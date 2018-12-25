@@ -10,44 +10,23 @@ test.describe('switch api', function () {
     connection = new utils.Connection()
   })
 
-  test.describe('switch state', () => {
-    test.it('should return false', () => {
+  test.describe('switch state reverse', () => {
+    test.it('should return true', () => {
       return connection.request('/abilities/switch/state', {
         method: 'GET'
       }).then(response => {
         return Promise.all([
           test.expect(response.statusCode).to.equal(200),
           test.expect(response.body).to.deep.equal({
-            data: false
+            data: true
           })
         ])
       })
     })
   })
 
-  test.describe('switch action', () => {
+  test.describe('switch action when ways are 3', () => {
     test.it('should do nothing if target status is equal to current status', () => {
-      return connection.request('/abilities/switch/action', {
-        method: 'POST',
-        body: {
-          data: false
-        }
-      }).then(response => {
-        return utils.moduleLogs()
-          .then(logs => {
-            return Promise.all([
-              test.expect(logs).to.not.contain('Setting gpio 2 to false'),
-              test.expect(logs).to.not.contain('Setting gpio 3 to false'),
-              test.expect(response.statusCode).to.equal(200),
-              test.expect(response.body).to.deep.equal({
-                data: false
-              })
-            ])
-          })
-      })
-    })
-
-    test.it('should change relays status if target status is different to current status', () => {
       return connection.request('/abilities/switch/action', {
         method: 'POST',
         body: {
@@ -57,11 +36,30 @@ test.describe('switch api', function () {
         return utils.moduleLogs()
           .then(logs => {
             return Promise.all([
-              test.expect(logs).to.contain('Setting gpio 2 to false'),
-              test.expect(logs).to.contain('Setting gpio 3 to false'),
+              test.expect(logs).to.not.contain('Setting gpio 5 to false'),
               test.expect(response.statusCode).to.equal(200),
               test.expect(response.body).to.deep.equal({
                 data: true
+              })
+            ])
+          })
+      })
+    })
+
+    test.it('should change relay status if target status is different to current status', () => {
+      return connection.request('/abilities/switch/action', {
+        method: 'POST',
+        body: {
+          data: false
+        }
+      }).then(response => {
+        return utils.moduleLogs()
+          .then(logs => {
+            return Promise.all([
+              test.expect(logs).to.contain('Setting gpio 5 to false'),
+              test.expect(response.statusCode).to.equal(200),
+              test.expect(response.body).to.deep.equal({
+                data: false
               })
             ])
           })
