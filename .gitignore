@@ -1,4 +1,5 @@
 .coverage
+.domapic
 .npmrc
 .scannerwork
 node_modules

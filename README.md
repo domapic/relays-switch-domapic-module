@@ -12,13 +12,17 @@
 
 ## Intro
 
-This package starts a Domapic Module that handles a 4 way switch made with relays. It is intended to be used in a Raspberry Pi or any other system supporting the [onoff][onoff-url] library, such as C.H.I.P. or BeagleBone.
+This package starts a Domapic Module that handles a 3 or 4 way switch made with relays. It is intended to be used in a Raspberry Pi or any other system supporting the [onoff][onoff-url] library, such as C.H.I.P. or BeagleBone.
 
-It can be integred into a traditional analogic switches circuit, and will act as another 4 way switch in the system. In that way, standard switches will continue working, and, as an extra, you'll can control the lights through Domapic Controller, Siri, etc.
+The status of the switch is determined by the status of a sensor (a light sensor, for example) handled by the module too.
 
-It can be used alone, but also can be connected to a [Domapic Controller][domapic-controller-url] to get the most out of it.
+It can be integred into a traditional analogic switches circuit, and will act as another analogic switch in the system. In that way, standard switches will continue working, and, as an extra, you'll can control the lights through Domapic Controller, Siri, etc.
 
 ![Relays switch connection schema][relays-switch-schema-image]
+
+> Above, example of connections for the module acting as a 4 way switch.
+
+It can be used alone, but also can be connected to a [Domapic Controller][domapic-controller-url] to get the most out of it.
 
 ## Installation
 
@@ -27,29 +31,29 @@ npm i relays-switch-domapic-module -g
 ```
 
 ## Usage
-<!-- 
-```bash
-relays-switch start --gpio=12 --debounce=3000 --reverse=false --save
-```
--->
 
-The server will be started in background using [pm2][pm2-url].
+```bash
+relays-switch start --relayGpio1=2 --relayGpio1=3 --sensorGpio=17 --reverse --save
+```
+
+The module will be started in background using [pm2][pm2-url].
 
 To display logs, type:
 
 ```bash
 relays-switch logs #--lines=300
 ```
-<!-- 
+
 ## Options
 
-The module, apart of all common [domapic services options][domapic-service-options-url], provides custom options for configuring the sensor:
+The module, apart of all common [domapic services options][domapic-service-options-url], provides custom options for configuring the switch:
 
-* `gpio` - Number defining the Gpio where the contact sensor to be controlled is connected.
-* `debounce` - Time in miliseconds to wait for before notifying about a change in the status of the contact sensor.
-* `reverse` - If `true`, the value of the gpio will be inverted when emitting event or returning state. Default is `false` (returns `true` when contact sensor detects contact, and `false` when not)
-
--->
+* `ways` - `<number>` Define if module will act as a 3 or 4 way switch. Valid values are `3` and `4`.
+* `relayGpio1` - `<number>` Gpio number for first relay.
+* `relayGpio2` - `<number>` Gpio number for second relay. Mandatory when module is configured to act as a 4 way switch.
+* `sensorGpio` - `<number>` Gpio number for the sensor that will determine the switch status.
+* `debounce` - `<number>` Time in miliseconds to wait for before notifying a change in the status of the sensor. Default is 500.
+* `reverse` - `<boolean>` If `true`, the value of the sensor will be inverted when emitting event or returning state. Default is `false`.
 
 ## Connection with Domapic Controller
 
@@ -67,10 +71,10 @@ Domapic modules are intended to be used through Domapic Controller, but can be u
 
 ### Rest API
 
-When the server is started, you can browse to the provided Swagger interface to get all the info about the api resources.  Apart of all api methods common to all [Domapic Services][domapic-service-url]
-<!-- the server provides one [_Domapic Ability_][domapic-service-abilities-url] for getting the state of the sensor, which generates one extra API resource:
+When the server is started, you can browse to the provided Swagger interface to get all the info about the api resources.  Apart of all api methods common to all [Domapic Services][domapic-service-url] the module provides two [_Domapic Abilities_][domapic-service-abilities-url] for getting the state of the switch and toggle it, which generates two extra API resources:
 
-* `/api/abilities/contact-sensor/state` - Returns the current state of the sensor. -->
+* `/api/abilities/switch/state` - Returns the current status of the sensor.
+* `/api/abilities/switch/action` - Changes the switch status to make the sensor match with the provided value.
 
 ### Authentication
 
@@ -126,5 +130,5 @@ If you don't want to use the built-in background runner, you can start the serve
 [domapic-service-url]: https://github.com/domapic/domapic-service
 [pm2-url]: http://pm2.keymetrics.io/
 
-[relays-switchschema-image]: http://domapic.com/assets/relays-switch/fritz_schema.png
+[relays-switch-schema-image]: http://domapic.com/assets/relays-switch/fritzing_schema.png
 
