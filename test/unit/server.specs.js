@@ -28,7 +28,7 @@ test.describe('server', () => {
   test.describe('when required', () => {
     test.before(async () => {
       domapic.stubs.module.config.get.resolves(false)
-      domapic.utils.createModuleListener(domapic.stubs.module)
+      domapic.utils.executeModuleListener(domapic.stubs.module)
       await domapic.utils.resolveOnStartCalled()
     })
 
@@ -65,6 +65,21 @@ test.describe('server', () => {
       })
     })
 
+    test.describe('switch action handler', () => {
+      test.it('should toggle switch if current status is different to target status', async () => {
+        gpioIn.stubs.instance.status = true
+        await abilities.switch.action.handler(false)
+        test.expect(gpioOut.stubs.instance.setStatus).to.have.been.called()
+      })
+
+      test.it('should not toggle switch if current status is equal to target status', async () => {
+        gpioOut.stubs.instance.setStatus.reset()
+        gpioIn.stubs.instance.status = true
+        await abilities.switch.action.handler(true)
+        test.expect(gpioOut.stubs.instance.setStatus).to.not.have.been.called()
+      })
+    })
+
     test.describe('sensor events listener', () => {
       test.it('should emit a domapic event', () => {
         gpioIn.utils.getEventListener()(true)
@@ -78,7 +93,7 @@ test.describe('server', () => {
       domapic.stubs.module.config.get.resolves({
         reverse: true
       })
-      domapic.utils.createModuleListener(domapic.stubs.module)
+      domapic.utils.executeModuleListener(domapic.stubs.module)
       await domapic.utils.resolveOnStartCalled()
     })
 
@@ -95,6 +110,56 @@ test.describe('server', () => {
         gpioIn.utils.getEventListener()(true)
         test.expect(domapic.stubs.module.events.emit).to.have.been.calledWith('switch', false)
       })
+    })
+  })
+
+  test.describe('when ways option is 4', () => {
+    test.before(async () => {
+      gpioOut.stubs.instance.setStatus.reset()
+      gpioOut.stubs.instance.init.reset()
+      domapic.stubs.module.register.reset()
+      domapic.stubs.module.config.get.resolves({
+        ways: 4,
+        relayGpio2: 2
+      })
+      domapic.utils.executeModuleListener(domapic.stubs.module)
+      await domapic.utils.resolveOnStartCalled()
+      abilities = domapic.stubs.module.register.getCall(0).args[0]
+    })
+
+    test.describe('when initializing', () => {
+      test.it('should have inited a second relay', async () => {
+        test.expect(gpioOut.stubs.instance.init).to.have.been.calledTwice()
+      })
+    })
+
+    test.describe('switch action handler', () => {
+      test.it('should toggle second relay if current status is different to target status', async () => {
+        gpioIn.stubs.instance.status = true
+        await abilities.switch.action.handler(false)
+        test.expect(gpioOut.stubs.instance.setStatus).to.have.been.calledTwice()
+      })
+    })
+  })
+
+  test.describe('when ways option is 4, and no second gpio is defined', () => {
+    test.before(async () => {
+      gpioOut.stubs.instance.setStatus.reset()
+      gpioOut.stubs.instance.init.reset()
+      domapic.stubs.module.register.reset()
+      domapic.stubs.module.config.get.resolves({
+        ways: 4
+      })
+    })
+
+    test.it('should throw an error', async () => {
+      let err
+      try {
+        await domapic.utils.executeModuleListener(domapic.stubs.module)
+      } catch (error) {
+        err = error
+      }
+      test.expect(err).to.be.an.instanceOf(Error)
     })
   })
 })

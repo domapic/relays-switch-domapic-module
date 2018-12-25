@@ -54,7 +54,7 @@ const Mock = function () {
     },
     utils: {
       resolveOnStartCalled: () => resolveOnStartCalledPromise,
-      createModuleListener: dmpcModule => createModuleListener(dmpcModule)
+      executeModuleListener: dmpcModule => createModuleListener(dmpcModule)
     }
   }
 }
