@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 ### Removed
 
+## [1.1.0] - 2018-12-30
+### Added
+- Add notify capability to homekit switch accessory configuration
+
 ## [1.0.0] - 2018-12-25
 ### Added
 - First release
