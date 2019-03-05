@@ -95,7 +95,7 @@ domapic.createModule({
         type: 'boolean'
       },
       action: {
-        description: 'Change relays status',
+        description: 'Switch relays',
         handler: async newState => {
           await relay1.setStatus(newState)
           if (relay2) {
