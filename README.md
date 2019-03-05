@@ -29,7 +29,7 @@ npm i relays-switch-domapic-module -g
 ## Usage
 
 ```bash
-relays-switch start --relayGpio1=2 --relayGpio1=3 --sensorGpio=17 --invert --save
+domapic-relays-switch start --relayGpio1=2 --relayGpio1=3 --sensorGpio=17 --invert --save
 ```
 
 The module will be started in background using [pm2][pm2-url].
@@ -37,7 +37,7 @@ The module will be started in background using [pm2][pm2-url].
 To display logs, type:
 
 ```bash
-relays-switch logs #--lines=300
+domapic-relays-switch logs #--lines=300
 ```
 
 ## Options
@@ -67,7 +67,7 @@ The module, apart of all common [domapic services options][domapic-service-optio
 Connect the module with a Domapic Controller providing the Controller url and connection token (you'll find it the Controller logs when it is started):
 
 ```bash
-relays-switch start --controller=http://192.168.1.110:3000 --controllerApiKey=fo--controller-api-key
+domapic-relays-switch start --controller=http://192.168.1.110:3000 --controllerApiKey=fo--controller-api-key
 ```
 
 Now, the module can be controlled through the Controller interface, or installed plugins.
@@ -106,11 +106,11 @@ Use the mentioned api key also for authenticating when using the Swagger interfa
 
 ### Not global installation
 
-If the package is not installed globally, you can replace the `relays-switch` command in examples above by `npm run relays-switch --` (commands must be executed inside the package folder in that case)
+If the package is not installed globally, you can replace the `domapic-relays-switch` command in examples above by `npm run domapic-relays-switch --` (commands must be executed inside the package folder in that case)
 
 ### Not background mode
 
-If you don't want to use the built-in background runner, you can start the server directly, attaching logs to current `stdout`. Move to the package folder and replace the `relays-switch` command of examples above by `node server.js`. Press `CTRL+C` to stop the server.
+If you don't want to use the built-in background runner, you can start the server directly, attaching logs to current `stdout`. Move to the package folder and replace the `domapic-relays-switch` command of examples above by `node server.js`. Press `CTRL+C` to stop the server.
 
 
 [coveralls-image]: https://coveralls.io/repos/github/javierbrea/relays-switch-domapic-module/badge.svg?branch=master
