@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [1.3.0] - 2019-03-05
 ### Added
 - Add ability that returns relays status
+- Add 3 ways connection schema to documentation
+- Add domapic-relays-switch bin command and script
 
 ## [1.2.0] - 2019-01-06
 ### Changed
