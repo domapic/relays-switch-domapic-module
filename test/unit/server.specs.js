@@ -86,6 +86,20 @@ test.describe('server', () => {
         test.expect(domapic.stubs.module.events.emit).to.have.been.calledWith('switch', true)
       })
     })
+
+    test.describe('relays state handler', () => {
+      test.it('should return current relays status', () => {
+        gpioOut.stubs.instance.status = true
+        test.expect(abilities.relaysSwitch.state.handler()).to.equal(true)
+      })
+    })
+
+    test.describe('relays action handler', () => {
+      test.it('should change relay 1 status', async () => {
+        await abilities.relaysSwitch.action.handler(false)
+        test.expect(gpioOut.stubs.instance.setStatus).to.have.been.calledWith(false)
+      })
+    })
   })
 
   test.describe('when reverse option is true', () => {
@@ -138,6 +152,14 @@ test.describe('server', () => {
         gpioIn.stubs.instance.status = true
         await abilities.switch.action.handler(false)
         test.expect(gpioOut.stubs.instance.setStatus).to.have.been.calledTwice()
+      })
+    })
+
+    test.describe('relays action handler', () => {
+      test.it('should change relay 2 status', async () => {
+        await abilities.relaysSwitch.action.handler(false)
+        test.expect(gpioOut.stubs.instance.setStatus.callCount).to.equal(4)
+        test.expect(gpioOut.stubs.instance.setStatus).to.have.been.calledWith(false)
       })
     })
   })
