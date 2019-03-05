@@ -18,10 +18,6 @@ The status of the switch is determined by the status of a sensor (a light sensor
 
 It can be integred into a traditional analogic switches circuit, and will act as another analogic switch in the system. In that way, standard switches will continue working, and, as an extra, you'll can control the lights through Domapic Controller, Siri, etc.
 
-![Relays switch connection schema][relays-switch-schema-image]
-
-> Above, example of connections for the module acting as a 4 way switch.
-
 It can be used alone, but also can be connected to a [Domapic Controller][domapic-controller-url] to get the most out of it.
 
 ## Installation
@@ -55,6 +51,16 @@ The module, apart of all common [domapic services options][domapic-service-optio
 * `debounce` - `<number>` Time in miliseconds to wait for before notifying a change in the status of the sensor. Default is 500.
 * `invert` - `<boolean>` If `true`, the value of the sensor will be inverted when emitting event or returning state. Default is `false`. (`reverse` is an alias for this option)
 * `invertRelays` - `<boolean>`  If `true`, the values read from or written to the relays GPIOs will be inverted. Equivalent to `activeLow` option of the [onoff][onoff-url] library.
+
+## Connection schemas
+
+#### Example of connection for the module  acting as a 3 way switch:
+
+![Relays switch connection schema][relays-3-switch-schema-image]
+
+#### Example of connection for the module  acting as a 4 way switch:
+
+![Relays switch connection schema][relays-4-switch-schema-image]
 
 ## Connection with Domapic Controller
 
@@ -133,5 +139,6 @@ If you don't want to use the built-in background runner, you can start the serve
 [domapic-service-url]: https://github.com/domapic/domapic-service
 [pm2-url]: http://pm2.keymetrics.io/
 
-[relays-switch-schema-image]: http://domapic.com/assets/relays-switch/fritzing_schema.png
+[relays-3-switch-schema-image]: http://domapic.com/assets/relays-switch/fritzing_schema_3_way.png
+[relays-4-switch-schema-image]: http://domapic.com/assets/relays-switch/fritzing_schema.png
 
