@@ -11,12 +11,14 @@ const pluginConfigs = require('./lib/plugins.json')
 const options = require('./lib/options')
 const {
   ABILITY_NAME,
+  RELAYS_ABILITY_NAME,
   WAYS_OPTION,
   RELAY_GPIO_1_OPTION,
   RELAY_GPIO_2_OPTION,
   SENSOR_GPIO_OPTION,
   DEBOUNCE_OPTION,
-  REVERSE_STATE_OPTION
+  REVERSE_STATE_OPTION,
+  INVERT_RELAYS_OPTION
 } = require('./lib/statics')
 
 domapic.createModule({
@@ -36,7 +38,8 @@ domapic.createModule({
     initialStatus: true,
     rememberLastStatus: true
   }, {
-    gpio: RELAY_GPIO_1_OPTION
+    gpio: RELAY_GPIO_1_OPTION,
+    invert: INVERT_RELAYS_OPTION
   })
   let relay2 = null
   if (ways === 4) {
@@ -47,7 +50,8 @@ domapic.createModule({
       initialStatus: true,
       rememberLastStatus: true
     }, {
-      gpio: RELAY_GPIO_2_OPTION
+      gpio: RELAY_GPIO_2_OPTION,
+      invert: INVERT_RELAYS_OPTION
     })
   }
 
@@ -59,6 +63,7 @@ domapic.createModule({
     if (relay2) {
       await relay2.setStatus(targetStatus)
     }
+    dmpcModule.events.emit(RELAYS_ABILITY_NAME, targetStatus)
   }
 
   await dmpcModule.register({
@@ -82,6 +87,30 @@ domapic.createModule({
       },
       event: {
         description: 'Sensor has changed status'
+      }
+    },
+    [RELAYS_ABILITY_NAME]: {
+      description: 'Relays status',
+      data: {
+        type: 'boolean'
+      },
+      action: {
+        description: 'Switch relays',
+        handler: async newState => {
+          await relay1.setStatus(newState)
+          if (relay2) {
+            await relay2.setStatus(newState)
+          }
+          dmpcModule.events.emit(RELAYS_ABILITY_NAME, newState)
+          return newState
+        }
+      },
+      state: {
+        description: 'Current relays status',
+        handler: () => relay1.status
+      },
+      event: {
+        description: 'Relays have changed status'
       }
     }
   })

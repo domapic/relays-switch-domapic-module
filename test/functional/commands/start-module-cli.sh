@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-npm run relays-switch start -- --path=${domapic_path} ${service_extra_options}
-npm run relays-switch logs
+npm run domapic-relays-switch start -- --path=${domapic_path} ${service_extra_options}
+npm run domapic-relays-switch logs

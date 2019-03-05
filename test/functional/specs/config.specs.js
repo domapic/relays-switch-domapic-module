@@ -21,7 +21,8 @@ test.describe('module configuration', function () {
         test.expect(response.body.relayGpio2).to.equal(3),
         test.expect(response.body.sensorGpio).to.equal(17),
         test.expect(response.body.ways).to.equal(4),
-        test.expect(response.body.reverse).to.equal(false)
+        test.expect(response.body.reverse).to.equal(false),
+        test.expect(response.body.invertRelays).to.equal(false)
       ])
     })
   })

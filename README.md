@@ -18,10 +18,6 @@ The status of the switch is determined by the status of a sensor (a light sensor
 
 It can be integred into a traditional analogic switches circuit, and will act as another analogic switch in the system. In that way, standard switches will continue working, and, as an extra, you'll can control the lights through Domapic Controller, Siri, etc.
 
-![Relays switch connection schema][relays-switch-schema-image]
-
-> Above, example of connections for the module acting as a 4 way switch.
-
 It can be used alone, but also can be connected to a [Domapic Controller][domapic-controller-url] to get the most out of it.
 
 ## Installation
@@ -33,7 +29,7 @@ npm i relays-switch-domapic-module -g
 ## Usage
 
 ```bash
-relays-switch start --relayGpio1=2 --relayGpio1=3 --sensorGpio=17 --reverse --save
+domapic-relays-switch start --relayGpio1=2 --relayGpio1=3 --sensorGpio=17 --invert --save
 ```
 
 The module will be started in background using [pm2][pm2-url].
@@ -41,7 +37,7 @@ The module will be started in background using [pm2][pm2-url].
 To display logs, type:
 
 ```bash
-relays-switch logs #--lines=300
+domapic-relays-switch logs #--lines=300
 ```
 
 ## Options
@@ -53,14 +49,25 @@ The module, apart of all common [domapic services options][domapic-service-optio
 * `relayGpio2` - `<number>` Gpio number for second relay. Mandatory when module is configured to act as a 4 way switch.
 * `sensorGpio` - `<number>` Gpio number for the sensor that will determine the switch status.
 * `debounce` - `<number>` Time in miliseconds to wait for before notifying a change in the status of the sensor. Default is 500.
-* `reverse` - `<boolean>` If `true`, the value of the sensor will be inverted when emitting event or returning state. Default is `false`.
+* `invert` - `<boolean>` If `true`, the value of the sensor will be inverted when emitting event or returning state. Default is `false`. (`reverse` is an alias for this option)
+* `invertRelays` - `<boolean>`  If `true`, the values read from or written to the relays GPIOs will be inverted. Equivalent to `activeLow` option of the [onoff][onoff-url] library.
+
+## Connection schemas
+
+#### Example of connection for the module  acting as a 3 way switch:
+
+![Relays switch connection schema][relays-3-switch-schema-image]
+
+#### Example of connection for the module  acting as a 4 way switch:
+
+![Relays switch connection schema][relays-4-switch-schema-image]
 
 ## Connection with Domapic Controller
 
 Connect the module with a Domapic Controller providing the Controller url and connection token (you'll find it the Controller logs when it is started):
 
 ```bash
-relays-switch start --controller=http://192.168.1.110:3000 --controllerApiKey=fo--controller-api-key
+domapic-relays-switch start --controller=http://192.168.1.110:3000 --controllerApiKey=fo--controller-api-key
 ```
 
 Now, the module can be controlled through the Controller interface, or installed plugins.
@@ -75,6 +82,8 @@ When the server is started, you can browse to the provided Swagger interface to 
 
 * `/api/abilities/switch/state` - Returns the current status of the sensor.
 * `/api/abilities/switch/action` - Changes the switch status to make the sensor match with the provided value.
+* `/api/abilities/relays-switch/state` - Returns the current status of the relays.
+* `/api/abilities/relays-switch/action` - Changes the relays status.
 
 ### Authentication
 
@@ -97,11 +106,11 @@ Use the mentioned api key also for authenticating when using the Swagger interfa
 
 ### Not global installation
 
-If the package is not installed globally, you can replace the `relays-switch` command in examples above by `npm run relays-switch --` (commands must be executed inside the package folder in that case)
+If the package is not installed globally, you can replace the `domapic-relays-switch` command in examples above by `npm run domapic-relays-switch --` (commands must be executed inside the package folder in that case)
 
 ### Not background mode
 
-If you don't want to use the built-in background runner, you can start the server directly, attaching logs to current `stdout`. Move to the package folder and replace the `relays-switch` command of examples above by `node server.js`. Press `CTRL+C` to stop the server.
+If you don't want to use the built-in background runner, you can start the server directly, attaching logs to current `stdout`. Move to the package folder and replace the `domapic-relays-switch` command of examples above by `node server.js`. Press `CTRL+C` to stop the server.
 
 
 [coveralls-image]: https://coveralls.io/repos/github/javierbrea/relays-switch-domapic-module/badge.svg?branch=master
@@ -130,5 +139,6 @@ If you don't want to use the built-in background runner, you can start the serve
 [domapic-service-url]: https://github.com/domapic/domapic-service
 [pm2-url]: http://pm2.keymetrics.io/
 
-[relays-switch-schema-image]: http://domapic.com/assets/relays-switch/fritzing_schema.png
+[relays-3-switch-schema-image]: http://domapic.com/assets/relays-switch/fritzing_schema_3_way.png
+[relays-4-switch-schema-image]: http://domapic.com/assets/relays-switch/fritzing_schema.png
 

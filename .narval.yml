@@ -95,12 +95,12 @@ suites:
             <<: *local-service
             env:
               <<: *local-service-env
-              service_extra_options: --relayGpio1=5 --sensorGpio=2 --ways=3 --debounce=3000 --reverse=true --logLevel=debug
+              service_extra_options: --relayGpio1=5 --sensorGpio=2 --ways=3 --debounce=3000 --reverse=true --logLevel=debug --invertRelays=true
           docker:
             <<: *docker-service
             env:
               <<: *docker-service-env
-              service_extra_options: --relayGpio1=5 --sensorGpio=2 --ways=3 --debounce=3000 --reverse=true --logLevel=debug
+              service_extra_options: --relayGpio1=5 --sensorGpio=2 --ways=3 --debounce=3000 --reverse=true --logLevel=debug --invertRelays=true
       test:
         <<: *functional-test
         specs:
